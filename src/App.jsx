@@ -13,17 +13,14 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <nav class="wa-cluster">
+        <nav class="wa-split">
           <Link to="/">Home</Link>
           <Link to="/bands">Bands</Link>
           <Link to="/releases">Releases</Link>
           <Link to="/musicians">Musicians</Link>
         </nav>
-        <div>
-          <FrontMeta />
-        </div>
         <Routes>
-          <Route path="/" />
+          <Route path="/" element={<FrontMeta />} />
           {/* Routes for collection pages */}
           <Route path="/bands" element={<Bands />} />
           <Route path="/releases" element={<Releases />} />
