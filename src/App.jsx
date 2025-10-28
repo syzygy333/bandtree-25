@@ -13,7 +13,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <nav>
+        <nav class="wa-cluster">
           <Link to="/">Home</Link>
           <Link to="/bands">Bands</Link>
           <Link to="/releases">Releases</Link>
