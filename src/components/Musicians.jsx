@@ -35,15 +35,15 @@ const Musicians = () => {
   return (
     <div>
       <h1>Musicians</h1>
-      {musicians.map((musician) => (
-        <ul>
+      <ul>
+        {musicians.map((musician) => (
           <li key={musician.fields.slug}>
             <Link to={`/musicians/${musician.fields.slug}`}>
               {musician.fields.name}
             </Link>
           </li>
-        </ul>
-      ))}
+        ))}
+      </ul>
     </div>
   );
 };

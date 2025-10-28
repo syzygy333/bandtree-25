@@ -35,15 +35,15 @@ const Bands = () => {
   return (
     <div>
       <h1>Bands</h1>
-      {bands.map((band) => (
-        <ul>
+      <ul>
+        {bands.map((band) => (
           <li key={band.fields.slug}>
             <Link to={`/bands/${band.fields.slug}`}>
               {band.fields.name}
             </Link>
           </li>
-        </ul>
-      ))}
+        ))}
+      </ul>
     </div>
   );
 };

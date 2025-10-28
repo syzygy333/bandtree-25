@@ -35,15 +35,15 @@ const Releases = () => {
   return (
     <div>
       <h1>Releases</h1>
-      {releases.map((release) => (
-        <ul>
+      <ul>
+        {releases.map((release) => (
           <li key={release.fields.slug}>
             <Link to={`/releases/${release.fields.slug}`}>
               {release.fields.title}
             </Link>
           </li>
-        </ul>
-      ))}
+        ))}
+      </ul>
     </div>
   );
 };
