@@ -46,6 +46,8 @@ const FrontMeta = () => {
   // 4. Display the count from the state
   return (
     <div>
+      <h1 className="homepage-site-title">Bandtree</h1>
+      <p>Find out how your favorite musician connects to your other favorite musicians</p>
       <h2>
         The tree has 
         <div>

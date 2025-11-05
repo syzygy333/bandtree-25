@@ -41,30 +41,41 @@ const Release = () => {
   }
 
   return (
-    <div>
-      <h1>{release.fields.title}</h1>
-      <p>{release.fields.year}</p>
-      {release.fields.tracks && (
-        <div>
-          {documentToReactComponents(release.fields.tracks)}
-        </div>
-      )}
-      {/* Access and render the linked musicians */}
-      {release.fields.musicians && (
-        <div>
-          <h2>Musicians</h2>
-          <ul>
-            {release.fields.musicians.map((musician) => (
-              <li key={musician.sys.id}>
-                <Link to={`/musician/${musician.fields.slug}`}>
-                  {musician.fields.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+    <>
+      <div className="hero content-before">
+        <h1 className="hero-heading">{release.fields.title}</h1>
+      </div>
+      <div className="content">
+        <article className="release-content">
+          <div className="release-content__left">
+            {/* Access and render the linked musicians */}
+            {release.fields.musicians && (
+              <div>
+                <h2>Musicians</h2>
+                <ul>
+                  {release.fields.musicians.map((musician) => (
+                    <li key={musician.sys.id}>
+                      <Link to={`/musician/${musician.fields.slug}`}>
+                        {musician.fields.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+          <div className="release-content__right">
+            <p>Year: {release.fields.year}</p>
+            {release.fields.tracks && (
+              <div>
+                <h2>Tracks</h2>
+                {documentToReactComponents(release.fields.tracks)}
+              </div>
+            )}
+          </div>
+        </article>
     </div>
+    </>
   );
 };
 

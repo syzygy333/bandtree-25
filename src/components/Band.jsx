@@ -40,24 +40,31 @@ const Band = () => {
   }
 
   return (
-    <div>
-      <h1>{band.fields.name}</h1>
-      {/* Access and render the linked releases */}
-      {band.fields.releases && (
-        <div>
-          <h2>Releases</h2>
-          <ul>
-            {band.fields.releases.map((release) => (
-              <li key={release.sys.id}>
-                <Link to={`/releases/${release.fields.slug}`}>
-                  {release.fields.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
+    <>
+      <div className="hero content-before">
+        <h1 className="hero-heading">{band.fields.name}</h1>
+      </div>
+      <div className="content">
+        <article className="band-content">
+          {/* Access and render the linked releases */}
+          {band.fields.releases && (
+            <>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in egestas massa. Ut a arcu ut purus pellentesque pellentesque a a mauris. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tincidunt varius neque, a ornare erat semper vitae. Nulla facilisi. Cras lacinia dui faucibus dolor dapibus, eu aliquam enim rhoncus. Proin non tempor arcu. Maecenas maximus neque quam, sit amet feugiat massa porta consequat. Nullam consequat a magna rutrum tempor. Pellentesque vehicula urna in eros laoreet rhoncus. Pellentesque elementum neque ut arcu lacinia euismod. Aliquam a ultrices lacus. Maecenas vitae dapibus lectus. In volutpat orci velit, non laoreet nibh varius at. Mauris scelerisque ligula eu consectetur dignissim.</p>
+              <h2>Releases</h2>
+              <ul>
+                {band.fields.releases.map((release) => (
+                  <li key={release.sys.id}>
+                    <Link to={`/releases/${release.fields.slug}`}>
+                      {release.fields.title} ({release.fields.year})
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+        </article>
+      </div>
+    </>
   );
 };
 

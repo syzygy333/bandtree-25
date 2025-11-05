@@ -11,25 +11,89 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
+  --ff-sans-headings: "BBH Sans Bartle", sans-serif;
+  --ff-sans-headings-weight: 400;
+  --ff-sans-headings-style: normal;
+  
+  --ff-sans-body: "Roboto Condensed", sans-serif;
+  --ff-sans-body-weight: 400;
+  --ff-sans-body-style: normal;
+  
+  --ff-serif: "Bodoni Moda", serif;
+  --ff-serif-weight: 400;
+  --ff-serif-style: normal;
+  
+  --bt-color-dark: #151715;
+  --bt-color-light: #f5f7f5;
+  --bt-color-near-light: #c0cfc0;
+  --bt-color-near-dark: #393e39;
+  
+  --bt-skew: skew(0deg, -3deg);
+  --bt-skew-offset: skew(0deg, 3deg);
 }
 
 a {
   font-weight: 500;
-  color: #646cff;
+  /* color: #646cff; */
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  /* color: #535bf2; */
+  text-decoration: underline;
 }
 
 body {
+  background-color: var(--bt-color-near-light);
+  color: var(--bt-color-dark);
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
 }
 
+a,
+blockquote,
+button,
+caption,
+cite,
+fieldset,
+figcaption,
+form,
+label,
+legend,
+li,
+nav,
+p,
+span,
+table {
+  font-family: var(--ff-sans-body);
+  font-optical-sizing: auto;
+  font-size: 1.125em;
+  font-weight: var(--ff-sans-body-weight);
+  font-style: var(--ff-sans-body-style);
+}
+
+h1 {
+  font-family: var(--ff-sans-headings);
+  font-weight: var(--ff-sans-headings-weight);
+  font-style: var(--ff-sans-headings-style);
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  /* color: var(--bt-color-light); */
+}
+h2,
+h3,
+h4 {
+  font-family: var(--ff-sans-body);
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: var(--ff-sans-body-style);
+}
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
@@ -54,15 +118,42 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+ul,
+ol {
+  li {
+    p {
+      margin: 0;
+    }
+  }
+}
+
+nav {
+  ul {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    
+    li {
+      a {
+        display: block;
+        padding: 1rem;
+      }
+    }
+  }
+}
+
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    /* color: #213547;
+    background-color: #ffffff; */
   }
   a:hover {
-    color: #747bff;
+    /* color: #747bff; */
   }
   button {
-    background-color: #f9f9f9;
+    /* background-color: #f9f9f9; */
   }
 }
