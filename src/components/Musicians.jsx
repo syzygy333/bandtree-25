@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Musicians = () => {
   const [musicians, setMusicians] = useState([]);
+  const [totalMusicians, setTotalMusicians] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -15,6 +16,8 @@ const Musicians = () => {
         if (response.items.length) {
           setMusicians(response.items);
         }
+        // Use response.total to get the actual total count, regardless of pagination
+        setTotalMusicians(response.total);
       } catch (error) {
         console.error("Error fetching musicians:", error);
       } finally {
@@ -33,18 +36,27 @@ const Musicians = () => {
   }
 
   return (
-    <div>
-      <h1>Musicians</h1>
-      <ul>
-        {musicians.map((musician) => (
-          <li key={musician.fields.slug}>
-            <Link to={`/musicians/${musician.fields.slug}`}>
-              {musician.fields.name}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <div className="hero content-before">
+        <h1 className="hero-heading">Musicians</h1>
+      </div>
+      <div className="subhero-info">
+        {totalMusicians} musician{totalMusicians !== 1 ? 's' : ''} in the tree
+      </div>
+      <div className="content">
+        {musicians &&
+          <ul>
+            {musicians.map((musician) => (
+              <li key={musician.fields.slug}>
+                <Link to={`/musicians/${musician.fields.slug}`}>
+                  {musician.fields.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        }
+      </div>
+    </>
   );
 };
 

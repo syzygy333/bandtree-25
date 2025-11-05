@@ -6,6 +6,7 @@ import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 
 const Release = () => {
   const [release, setRelease] = useState(null);
+  const [band, setBand] = useState(null);
   const [loading, setLoading] = useState(true);
   const { releaseSlug } = useParams(); // Get the release ID from the URL
 
@@ -15,11 +16,23 @@ const Release = () => {
         const response = await client.getEntries({
           content_type: 'release',
           'fields.slug': releaseSlug,
-          include: 1, // Fetch up to 10 levels of linked content
+          include: 2, // Fetch linked content
         });
         
         if (response.items.length) {
-          setRelease(response.items[0]);
+          const releaseData = response.items[0];
+          setRelease(releaseData);
+          
+          // Find the band that has this release in its releases array
+          const bandResponse = await client.getEntries({
+            content_type: 'band',
+            'fields.releases.sys.id': releaseData.sys.id,
+            include: 1,
+          });
+          
+          if (bandResponse.items.length) {
+            setBand(bandResponse.items[0]);
+          }
         } else {
           setRelease(null); // Set to null if not found
         }
@@ -45,13 +58,20 @@ const Release = () => {
       <div className="hero content-before">
         <h1 className="hero-heading">{release.fields.title}</h1>
       </div>
+      {band && (
+        <div className="subhero-info">
+          By <Link to={`/bands/${band.fields.slug}`}>
+            {band.fields.name}
+          </Link>
+        </div>
+      )}
       <div className="content">
         <article className="release-content">
           <div className="release-content__left">
             {/* Access and render the linked musicians */}
             {release.fields.musicians && (
               <div>
-                <h2>Musicians</h2>
+                <h2>Credits</h2>
                 <ul>
                   {release.fields.musicians.map((musician) => (
                     <li key={musician.sys.id}>
@@ -65,7 +85,10 @@ const Release = () => {
             )}
           </div>
           <div className="release-content__right">
-            <p>Year: {release.fields.year}</p>
+            <div>
+              <h2>Year</h2>
+              <p>{release.fields.year}</p>
+            </div>
             {release.fields.tracks && (
               <div>
                 <h2>Tracks</h2>

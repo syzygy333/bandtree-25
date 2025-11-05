@@ -45,24 +45,26 @@ const FrontMeta = () => {
   
   // 4. Display the count from the state
   return (
-    <div>
-      <h1 className="homepage-site-title">Bandtree</h1>
-      <p>Find out how your favorite musician connects to your other favorite musicians</p>
-      <h2>
-        The tree has 
-        <div>
-          {counts.bands} bands 
-          <wa-icon style={iconStyle} family="duotone" name="guitars" data-fa-kit-code="03193d7d12"></wa-icon>
-        </div>
-        <div>
-          {counts.releases} releases 
-          <wa-icon style={iconStyle} family="duotone" name="record-vinyl"></wa-icon>
-        </div>
-        <div>
-          and {counts.musicians} musicians
-          <wa-icon style={iconStyle} family="duotone" name="user-music"></wa-icon>
-        </div>
-      </h2>
+    <div className="homepage hero">
+      <h1 className="homepage-site-title hero-heading">Bandtree</h1>
+      <div className="homepage-stats">
+        <p>Find out how your favorite musician connects to your other favorite musicians</p>
+        <h2>
+          The tree has 
+          <div>
+            {counts.bands} bands 
+            <wa-icon style={iconStyle} family="duotone" name="guitars" data-fa-kit-code="03193d7d12"></wa-icon>
+          </div>
+          <div>
+            {counts.releases} releases 
+            <wa-icon style={iconStyle} family="duotone" name="record-vinyl"></wa-icon>
+          </div>
+          <div>
+            and {counts.musicians} musicians
+            <wa-icon style={iconStyle} family="duotone" name="user-music"></wa-icon>
+          </div>
+        </h2>
+      </div>
     </div>
   );
 };

@@ -13,7 +13,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <nav class="bt-nav">
+        <nav className="bt-nav">
           <ul>
             <li><Link to="/">Home</Link></li>
             <li><Link to="/bands">Bands</Link></li>

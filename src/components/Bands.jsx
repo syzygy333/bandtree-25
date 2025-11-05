@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Bands = () => {
   const [bands, setBands] = useState([]);
+  const [totalBands, setTotalBands] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -15,6 +16,8 @@ const Bands = () => {
         if (response.items.length) {
           setBands(response.items);
         }
+        // Use response.total to get the actual total count, regardless of pagination
+        setTotalBands(response.total);
       } catch (error) {
         console.error("Error fetching bands:", error);
       } finally {
@@ -33,18 +36,27 @@ const Bands = () => {
   }
 
   return (
-    <div>
-      <h1>Bands</h1>
-      <ul>
-        {bands.map((band) => (
-          <li key={band.fields.slug}>
-            <Link to={`/bands/${band.fields.slug}`}>
-              {band.fields.name}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <div className="hero content-before">
+        <h1 className="hero-heading">Bands</h1>
+      </div>
+      <div className="subhero-info">
+        {totalBands} band{totalBands !== 1 ? 's' : ''} in the tree
+      </div>
+      <div className="content">
+        {bands &&
+          <ul>
+            {bands.map((band) => (
+              <li key={band.fields.slug}>
+                <Link to={`/bands/${band.fields.slug}`}>
+                  {band.fields.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        }
+      </div>
+    </>
   );
 };
 

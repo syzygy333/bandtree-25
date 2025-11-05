@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Releases = () => {
   const [releases, setReleases] = useState([]);
+  const [totalReleases, setTotalReleases] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -15,6 +16,8 @@ const Releases = () => {
         if (response.items.length) {
           setReleases(response.items);
         }
+        // Use response.total to get the actual total count, regardless of pagination
+        setTotalReleases(response.total);
       } catch (error) {
         console.error("Error fetching releases:", error);
       } finally {
@@ -33,18 +36,27 @@ const Releases = () => {
   }
 
   return (
-    <div>
-      <h1>Releases</h1>
-      <ul>
-        {releases.map((release) => (
-          <li key={release.fields.slug}>
-            <Link to={`/releases/${release.fields.slug}`}>
-              {release.fields.title}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <div className="hero content-before">
+        <h1 className="hero-heading">Releases</h1>
+      </div>
+      <div className="subhero-info">
+        {totalReleases} release{totalReleases !== 1 ? 's' : ''} in the tree
+      </div>
+      <div className="content">
+        {releases &&
+          <ul>
+            {releases.map((release) => (
+              <li key={release.fields.slug}>
+                <Link to={`/releases/${release.fields.slug}`}>
+                  {release.fields.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        }
+      </div>
+    </>
   );
 };
 
