@@ -21,6 +21,7 @@ const ServerSideSearch = ({ contentTypeId, searchFieldId }) => {
         content_type: contentTypeId,
         [queryParamKey]: query,
         include: 2,
+        order: `fields.${searchFieldId}`,
       });
       setSearchResults(response.items);
     } catch (error) {
