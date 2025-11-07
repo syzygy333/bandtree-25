@@ -30,7 +30,7 @@ function App() {
           {/* Dynamic routes for single pages */}
           <Route path="/bands/:bandSlug" element={<Band />} />
           <Route path="/releases/:releaseSlug" element={<Release />} />
-          <Route path="/musician/:musicianSlug" element={<Musician />} />
+          <Route path="/musicians/:musicianSlug" element={<Musician />} />
         </Routes>
       </div>
     </BrowserRouter>

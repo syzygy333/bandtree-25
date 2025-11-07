@@ -75,7 +75,7 @@ const Release = () => {
                 <ul>
                   {release.fields.musicians.map((musician) => (
                     <li key={musician.sys.id}>
-                      <Link to={`/musician/${musician.fields.slug}`}>
+                      <Link to={`/musicians/${musician.fields.slug}`}>
                         {musician.fields.name}
                       </Link>
                     </li>
