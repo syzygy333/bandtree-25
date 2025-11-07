@@ -121,6 +121,7 @@ button:focus-visible {
 
 ul,
 ol {
+  padding-inline-start: 25px;
   li {
     p {
       margin: 0;

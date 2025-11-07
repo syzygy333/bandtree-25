@@ -43,7 +43,10 @@
 
 .hero {
   aspect-ratio: 10/3;
+  background-blend-mode: overlay;
   background-color: var(--bt-color-dark);
+  background-repeat: no-repeat;
+  background-size: cover;
   border: 1rem solid var(--bt-color-light);
   color: #f5f7f5;
   display: flex;

@@ -48,12 +48,24 @@ const Band = () => {
     });
   };
   
+  let heroStyle = {};
+  const mediaField = band.fields.media;
+  if (mediaField && mediaField.fields && mediaField.fields.file) {
+    const imageUrl = mediaField.fields.file.url;
+    heroStyle = {
+      backgroundImage: `url(${imageUrl})`
+    };
+  } else {
+    // The media field is empty or missing data
+    heroStyle = {};
+  }
+  
   // Sort the releases before rendering
   const sortedReleases = band.fields.releases ? sortReleasesByYearDesc(band.fields.releases) : [];
 
   return (
     <>
-      <div className="hero content-before">
+      <div className="hero content-before" style={heroStyle ? heroStyle : ''}>
         <h1 className="hero-heading">{band.fields.name}</h1>
       </div>
       <div className="content">
