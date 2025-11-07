@@ -65,7 +65,6 @@ const FrontMeta = () => {
           </div>
         </h2>
       </div>
-      {/* to-do: the most well-connected artist is */}
     </div>
   );
 };
