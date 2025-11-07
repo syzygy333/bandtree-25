@@ -95,6 +95,15 @@ const Release = () => {
                 {documentToReactComponents(release.fields.tracks)}
               </div>
             )}
+            {/* to-do
+            <div>
+              <h2>Label</h2>
+              <p>{release.fields.recordLabel}</p>
+            </div>
+            <div>
+              <h2>Catalog Number</h2>
+              <p>{release.fields.catalogNumber}</p>
+            </div> */}
           </div>
         </article>
     </div>

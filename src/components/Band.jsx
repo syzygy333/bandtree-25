@@ -38,6 +38,18 @@ const Band = () => {
   if (!band) {
     return <div>Band not found.</div>;
   }
+  
+  // Define the sorting function
+  const sortReleasesByYearDesc = (releases) => {
+    // Create a copy of the array using slice() to avoid mutating the state directly
+    return [...releases].sort((a, b) => {
+      // For descending order (latest year first): b.fields.year - a.fields.year
+      return b.fields.year - a.fields.year;
+    });
+  };
+  
+  // Sort the releases before rendering
+  const sortedReleases = band.fields.releases ? sortReleasesByYearDesc(band.fields.releases) : [];
 
   return (
     <>
@@ -46,13 +58,11 @@ const Band = () => {
       </div>
       <div className="content">
         <article className="band-content">
-          {/* Access and render the linked releases */}
-          {band.fields.releases && (
+          {sortedReleases.length > 0 && (
             <>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in egestas massa. Ut a arcu ut purus pellentesque pellentesque a a mauris. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tincidunt varius neque, a ornare erat semper vitae. Nulla facilisi. Cras lacinia dui faucibus dolor dapibus, eu aliquam enim rhoncus. Proin non tempor arcu. Maecenas maximus neque quam, sit amet feugiat massa porta consequat. Nullam consequat a magna rutrum tempor. Pellentesque vehicula urna in eros laoreet rhoncus. Pellentesque elementum neque ut arcu lacinia euismod. Aliquam a ultrices lacus. Maecenas vitae dapibus lectus. In volutpat orci velit, non laoreet nibh varius at. Mauris scelerisque ligula eu consectetur dignissim.</p>
               <h2>Releases</h2>
               <ul>
-                {band.fields.releases.map((release) => (
+                {sortedReleases.map((release) => (
                   <li key={release.sys.id}>
                     <Link to={`/releases/${release.fields.slug}`}>
                       {release.fields.title} ({release.fields.year})

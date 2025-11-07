@@ -27,6 +27,7 @@ const Musician = () => {
           const releasesResponse = await client.getEntries({
             content_type: 'release',
             'fields.musicians.sys.id': foundMusician.sys.id,
+            order: '-fields.year',
             include: 2, // Include linked musicians on releases
           });
           setReleases(releasesResponse.items);
@@ -90,7 +91,7 @@ const Musician = () => {
               {releases.map((release) => (
                 <li key={release.sys.id}>
                   <Link to={`/releases/${release.fields.slug}`}>
-                    {release.fields.title}
+                    {release.fields.title} ({release.fields.year})
                   </Link>
                 </li>
               ))}
