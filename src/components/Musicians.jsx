@@ -113,7 +113,7 @@ const Musicians = () => {
       <div className="subhero-info">
         {totalMusicians} musician{totalMusicians !== 1 ? 's' : ''} in the tree
       </div>
-      <div className="content">
+      <div className="content musicians">
         <ServerSideSearch
           contentTypeId="musician"
           searchFieldId="name"

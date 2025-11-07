@@ -44,7 +44,7 @@ const Releases = () => {
       <div className="subhero-info">
         {totalReleases} release{totalReleases !== 1 ? 's' : ''} in the tree
       </div>
-      <div className="content">
+      <div className="content releases">
         <ServerSideSearch
           contentTypeId="release"
           searchFieldId="title"

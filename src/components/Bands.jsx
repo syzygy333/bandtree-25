@@ -44,7 +44,7 @@ const Bands = () => {
       <div className="subhero-info">
         {totalBands} band{totalBands !== 1 ? 's' : ''} in the tree
       </div>
-      <div className="content">
+      <div className="content bands">
         <ServerSideSearch
           contentTypeId="band"
           searchFieldId="name"

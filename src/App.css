@@ -104,6 +104,19 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
+  
+  &.bands,
+  &.releases,
+  &.musicians {
+    ul {
+      @media (min-width: 480px) {
+        columns: 2;
+      }
+      @media (min-width: 768px) {
+        columns: 3;
+      }
+    }
+  }
 }
 
 .search {
