@@ -52,10 +52,22 @@ const Release = () => {
   if (!release) {
     return <div>Release not found.</div>;
   }
+  
+  let heroStyle = {};
+  const mediaField = release.fields.media;
+  if (mediaField && mediaField.fields && mediaField.fields.file) {
+    const imageUrl = mediaField.fields.file.url;
+    heroStyle = {
+      backgroundImage: `url(${imageUrl})`
+    };
+  } else {
+    // The media field is empty or missing data
+    heroStyle = {};
+  }
 
   return (
     <>
-      <div className="hero content-before">
+      <div className="hero release content-before" style={heroStyle ? heroStyle : ''}>
         <h1 className="hero-heading">{release.fields.title}</h1>
       </div>
       {band && (

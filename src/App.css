@@ -45,6 +45,7 @@
   aspect-ratio: 10/3;
   background-blend-mode: overlay;
   background-color: var(--bt-color-dark);
+  background-position: top center;
   background-repeat: no-repeat;
   background-size: cover;
   border: 1rem solid var(--bt-color-light);
@@ -59,6 +60,11 @@
   @media (min-width: 768px) {
     border: 2rem solid var(--bt-color-light);
     padding: 3rem;
+  }
+  
+  &.release {
+    background-position: top right;
+    background-size: contain;
   }
   
   & > * {
