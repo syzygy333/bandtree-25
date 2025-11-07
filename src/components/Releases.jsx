@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import client from '../contentfulClient';
 import { Link } from 'react-router-dom';
+import ServerSideSearch from './Search';
 
 const Releases = () => {
   const [releases, setReleases] = useState([]);
@@ -44,6 +45,11 @@ const Releases = () => {
         {totalReleases} release{totalReleases !== 1 ? 's' : ''} in the tree
       </div>
       <div className="content">
+        <ServerSideSearch
+          contentTypeId="release"
+          searchFieldId="title"
+        />
+        <h2>100 most recent additions</h2>
         {releases &&
           <ul>
             {releases.map((release) => (

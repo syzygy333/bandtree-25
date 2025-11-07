@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import client from '../contentfulClient';
 import { Link } from 'react-router-dom';
+import ServerSideSearch from './Search';
 
 const Bands = () => {
   const [bands, setBands] = useState([]);
@@ -44,6 +45,11 @@ const Bands = () => {
         {totalBands} band{totalBands !== 1 ? 's' : ''} in the tree
       </div>
       <div className="content">
+        <ServerSideSearch
+          contentTypeId="band"
+          searchFieldId="name"
+        />
+        <h2>100 most recent additions</h2>
         {bands &&
           <ul>
             {bands.map((band) => (
