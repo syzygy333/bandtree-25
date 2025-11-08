@@ -79,7 +79,7 @@ const ServerSideSearch = ({ contentTypeId, searchFieldId }) => {
           <ul>
             {searchResults.map((entry) => (
               <li key={entry.sys.id}>
-                <Link to={`/musicians/${entry.fields.slug}`}>
+                <Link to={`/${contentTypeId}s/${entry.fields.slug}`}>
                   {entry.fields[searchFieldId]}
                 </Link>
               </li>
