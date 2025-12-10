@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import client from '../contentfulClient';
 import { Link } from 'react-router-dom';
+import { computeBandConnections, mapConnectionIdsToBands } from '../utils/bandConnections';
 
 const Band = () => {
   const [band, setBand] = useState(null);
@@ -36,50 +37,20 @@ const Band = () => {
     const fetchConnectedBands = async () => {
       if (!band) return;
 
-      // Build a set of musician IDs that appear on this band's releases
-      // This could eventually impact performance if the number of bands grows
-      // since it currently fetches all bands to compute connections
-      const musicianIds = new Set(
-        (band.fields.releases || []).flatMap((release) =>
-          (release.fields?.musicians || []).map((musician) => musician.sys.id)
-        )
-      );
-
-      if (musicianIds.size === 0) {
-        setConnectedBands([]);
-        return;
-      }
-
       try {
         const response = await client.getEntries({
           content_type: 'band',
           order: 'fields.name',
           include: 3, // ensure linked releases/musicians are available
+          limit: 1000, // consider all bands (raise if needed)
         });
 
-        const connections = [];
-        const seen = new Set();
-
-        response.items.forEach((otherBand) => {
-          if (otherBand.sys.id === band.sys.id) return;
-
-          const otherMusicianIds = new Set(
-            (otherBand.fields.releases || []).flatMap((release) =>
-              (release.fields?.musicians || []).map((musician) => musician.sys.id)
-            )
-          );
-
-          // Check if there is any shared musician
-          const hasSharedMusician = [...musicianIds].some((id) =>
-            otherMusicianIds.has(id)
-          );
-
-          if (hasSharedMusician && !seen.has(otherBand.sys.id)) {
-            seen.add(otherBand.sys.id);
-            connections.push(otherBand);
-          }
-        });
-
+        const { connectionsByBandId } = computeBandConnections(response.items);
+        const connections = mapConnectionIdsToBands(
+          band.sys.id,
+          response.items,
+          connectionsByBandId
+        ).sort((a, b) => a.fields.name.localeCompare(b.fields.name));
         setConnectedBands(connections);
       } catch (error) {
         console.error('Error fetching connected bands:', error);
@@ -144,7 +115,7 @@ const Band = () => {
           )}
           {connectedBands.length > 0 && (
             <>
-              <h2>Connected Bands</h2>
+              <h2>Connected Bands ({connectedBands.length})</h2>
               <ul>
                 {connectedBands.map((connectedBand) => (
                   <li key={connectedBand.sys.id}>
