@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 const Band = () => {
   const [band, setBand] = useState(null);
+  const [connectedBands, setConnectedBands] = useState([]);
   const [loading, setLoading] = useState(true);
   const { bandSlug } = useParams(); // Get the band ID from the URL
 
@@ -14,7 +15,7 @@ const Band = () => {
         const response = await client.getEntries({
           content_type: 'band',
           'fields.slug': bandSlug,
-          include: 1, // Fetch up to 10 levels of linked content
+          include: 3, // fetch linked releases + musicians
         });
         
         if (response.items.length) {
@@ -30,6 +31,63 @@ const Band = () => {
     };
     fetchBand();
   }, [bandSlug]); // Re-run effect if the bandSlug in the URL changes
+
+  useEffect(() => {
+    const fetchConnectedBands = async () => {
+      if (!band) return;
+
+      // Build a set of musician IDs that appear on this band's releases
+      // This could eventually impact performance if the number of bands grows
+      // since it currently fetches all bands to compute connections
+      const musicianIds = new Set(
+        (band.fields.releases || []).flatMap((release) =>
+          (release.fields?.musicians || []).map((musician) => musician.sys.id)
+        )
+      );
+
+      if (musicianIds.size === 0) {
+        setConnectedBands([]);
+        return;
+      }
+
+      try {
+        const response = await client.getEntries({
+          content_type: 'band',
+          order: 'fields.name',
+          include: 3, // ensure linked releases/musicians are available
+        });
+
+        const connections = [];
+        const seen = new Set();
+
+        response.items.forEach((otherBand) => {
+          if (otherBand.sys.id === band.sys.id) return;
+
+          const otherMusicianIds = new Set(
+            (otherBand.fields.releases || []).flatMap((release) =>
+              (release.fields?.musicians || []).map((musician) => musician.sys.id)
+            )
+          );
+
+          // Check if there is any shared musician
+          const hasSharedMusician = [...musicianIds].some((id) =>
+            otherMusicianIds.has(id)
+          );
+
+          if (hasSharedMusician && !seen.has(otherBand.sys.id)) {
+            seen.add(otherBand.sys.id);
+            connections.push(otherBand);
+          }
+        });
+
+        setConnectedBands(connections);
+      } catch (error) {
+        console.error('Error fetching connected bands:', error);
+      }
+    };
+
+    fetchConnectedBands();
+  }, [band]);
 
   if (loading) {
     return <div>Loading band...</div>;
@@ -78,6 +136,20 @@ const Band = () => {
                   <li key={release.sys.id}>
                     <Link to={`/releases/${release.fields.slug}`}>
                       {release.fields.title} ({release.fields.year})
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+          {connectedBands.length > 0 && (
+            <>
+              <h2>Connected Bands</h2>
+              <ul>
+                {connectedBands.map((connectedBand) => (
+                  <li key={connectedBand.sys.id}>
+                    <Link to={`/bands/${connectedBand.fields.slug}`}>
+                      {connectedBand.fields.name}
                     </Link>
                   </li>
                 ))}
