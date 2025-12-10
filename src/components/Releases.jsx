@@ -49,7 +49,7 @@ const Releases = () => {
           contentTypeId="release"
           searchFieldId="title"
         />
-        <h2>100 most recent additions</h2>
+        <h2>100 most recent updates</h2>
         {releases &&
           <ul>
             {releases.map((release) => (

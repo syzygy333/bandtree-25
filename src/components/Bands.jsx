@@ -49,7 +49,7 @@ const Bands = () => {
           contentTypeId="band"
           searchFieldId="name"
         />
-        <h2>100 most recent additions</h2>
+        <h2>100 most recent updates</h2>
         {bands &&
           <ul>
             {bands.map((band) => (

@@ -124,7 +124,7 @@ const Musicians = () => {
             {topMusician.fields.name}
           </Link> is the most connected musician ({topMusician.uniqueCollaboratorCount} connections).
         </p>
-        <h2>100 most recent additions</h2>
+        <h2>100 most recent updates</h2>
         {musicians &&
           <ul>
             {musicians.map((musician) => (

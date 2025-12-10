@@ -75,6 +75,7 @@ const Release = () => {
           By <Link to={`/bands/${band.fields.slug}`}>
             {band.fields.name}
           </Link>
+          {/* to-do: account for releases with more than 1 band */}
         </div>
       )}
       <div className="content">
@@ -94,6 +95,7 @@ const Release = () => {
                   ))}
                 </ul>
               </div>
+              // note that some people listed here might be non-musicians (engineers, producers, etc.)
             )}
           </div>
           <div className="release-content__right">

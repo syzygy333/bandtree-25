@@ -93,6 +93,7 @@ const Musician = () => {
                   <Link to={`/releases/${release.fields.slug}`}>
                     {release.fields.title} ({release.fields.year})
                   </Link>
+                  {/* by band.name */}
                 </li>
               ))}
             </ul>
