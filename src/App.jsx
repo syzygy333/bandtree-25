@@ -7,6 +7,7 @@ import Musicians from './components/Musicians';
 import Musician from './components/Musician';
 import Releases from './components/Releases';
 import Release from './components/Release';
+import SixDegrees from './components/SixDegrees';
 import './App.css';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <li><Link to="/bands">Bands</Link></li>
             <li><Link to="/releases">Releases</Link></li>
             <li><Link to="/musicians">Musicians</Link></li>
+            <li><Link to="/six-degrees">Six Degrees</Link></li>
           </ul>
         </nav>
         <Routes>
@@ -31,6 +33,8 @@ function App() {
           <Route path="/bands/:bandSlug" element={<Band />} />
           <Route path="/releases/:releaseSlug" element={<Release />} />
           <Route path="/musicians/:musicianSlug" element={<Musician />} />
+          {/* Six Degrees feature */}
+          <Route path="/six-degrees" element={<SixDegrees />} />
         </Routes>
       </div>
     </BrowserRouter>
