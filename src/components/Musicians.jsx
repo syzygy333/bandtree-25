@@ -107,8 +107,8 @@ const Musicians = () => {
 
   return (
     <>
-      <div className="hero content-before">
-        <h1 className="hero-heading">Musicians</h1>
+      <div className="hero">
+        <h1>Musicians</h1>
       </div>
       <div className="subhero-info">
         {totalMusicians} musician{totalMusicians !== 1 ? 's' : ''} in the tree

@@ -7,13 +7,13 @@ import Musicians from './components/Musicians';
 import Musician from './components/Musician';
 import Releases from './components/Releases';
 import Release from './components/Release';
-import './App.css';
+// import './App.css';
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <nav className="bt-nav">
+        <nav className="bandtree-nav bg-green-500 transform-(--bandtree-skew)">
           <ul>
             <li><Link to="/">Home</Link></li>
             <li><Link to="/bands">Bands</Link></li>

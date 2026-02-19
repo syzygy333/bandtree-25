@@ -38,8 +38,8 @@ const Releases = () => {
 
   return (
     <>
-      <div className="hero content-before">
-        <h1 className="hero-heading">Releases</h1>
+      <div className="hero">
+        <h1>Releases</h1>
       </div>
       <div className="subhero-info">
         {totalReleases} release{totalReleases !== 1 ? 's' : ''} in the tree

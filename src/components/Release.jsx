@@ -67,8 +67,8 @@ const Release = () => {
 
   return (
     <>
-      <div className="hero release content-before" style={heroStyle ? heroStyle : ''}>
-        <h1 className="hero-heading">{release.fields.title}</h1>
+      <div className="hero hero--release" style={heroStyle ? heroStyle : ''}>
+        <h1>{release.fields.title}</h1>
       </div>
       {band && (
         <div className="subhero-info">

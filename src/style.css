@@ -1,0 +1,296 @@
+@import "tailwindcss";
+
+@theme {
+  /* disable tailwind colors */
+  --color-*: initial;
+  
+  --color-green-900: #151715;
+  --color-green-500: #393e39;
+  --color-green-300: #c0cfc0;
+  --color-green-100: #f5f7f5;
+  
+  --font-weight-base: 400;
+  --font-weight-200: 200;
+  --font-weight-500: 500;
+  --font-weight-700: 700;
+  --font-style-normal: normal;
+  --font-sans-heading: "BBH Sans Bartle", sans-serif;
+  --font-sans-body: "Roboto Condensed", sans-serif;
+  --font-serif: "Bodoni Moda", serif;
+}
+
+:root {
+  --bandtree-skew: skew(0deg, -3deg);
+  --bandtree-skew-offset: skew(0deg, 3deg);
+}
+
+/* Base */
+body {
+  background-color: var(--color-green-300);
+  color: var(--color-green-900);
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+a {
+  font-weight: var(--font-weight-500);
+  color: inherit;
+  text-decoration: underline;
+}
+a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+a,
+blockquote,
+button,
+caption,
+cite,
+div,
+fieldset,
+figcaption,
+form,
+input,
+label,
+legend,
+li,
+nav,
+p,
+span,
+table {
+  font-family: var(--font-sans-body);
+  font-optical-sizing: auto;
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-base);
+  font-style: var(--font-style-normal);
+}
+
+h1 {
+  font-family: var(--font-sans-heading);
+  font-weight: var(--font-weight-base);
+  font-style: var(--font-style-normal);
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  /* margin-block-start: 0; */
+}
+h2,
+h3,
+h4 {
+  font-family: var(--font-sans-body);
+  font-optical-sizing: auto;
+  font-weight: var(--font-weight-700);
+  font-style: var(--font-style-normal);
+}
+h1 {
+  font-size: clamp(2rem, 3vw + 1rem, 3.5rem);
+  line-height: 1.1;
+}
+
+button {
+  border: 1px solid transparent;
+  padding: 0.6rem 1.2rem;
+  font-size: 1em;
+  font-weight: var(--font-weight-500);
+  font-family: inherit;
+  background-color: var(--color-green-900);
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+ul,
+ol {
+  list-style: revert;
+  padding-inline-start: 25px;
+  li {
+    p {
+      margin: 0;
+    }
+  }
+}
+
+nav {
+  ul {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    
+    li {
+      a {
+        display: block;
+        padding: 1rem;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+form {
+  input {
+    background-color: var(--color-green-100);
+    border-color: var(--color-green-900);
+    border-style: solid;
+    color: var(--color-green-900);
+    padding: 1rem;
+  }
+}
+/* Base */
+
+
+
+
+
+
+.bandtree-nav {
+  position: relative;
+  
+  ul li a {
+    color: var(--color-green-100);
+    font-family: var(--font-sans-body);
+    font-weight: var(--font-weight-200);
+        
+    &:hover {
+      color: var(--color-green-100);
+    }
+  }
+  
+  &::before {
+    background-color: var(--color-green-500);
+    content: '';
+    position: absolute;
+    top: -5vh;
+    left: 0;
+    bottom: 90%;
+    right: 0;
+  }
+}
+
+.hero {
+  aspect-ratio: 10/3;
+  background-blend-mode: overlay;
+  background-color: var(--color-green-900);
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: 1rem solid var(--color-green-100);
+  color: #f5f7f5;
+  display: flex;
+  align-items: center;
+  padding: 2rem;
+  position: relative;
+  transform: var(--bandtree-skew);
+  z-index: 1;
+  
+  @media (min-width: 768px) {
+    border: 2rem solid var(--color-green-100);
+    padding: 3rem;
+  }
+  
+  h1 {
+    font-size: clamp(2rem, 3vw + 1rem, 3.5rem);
+    margin: 0;
+    max-width: calc(100vw - 6rem);
+    overflow-wrap: break-word;
+    
+    @media (min-width: 768px) {
+      max-width: calc(100vw - 10rem);
+    }
+  }
+  
+  & > * {
+    transform: var(--bandtree-skew-offset);
+  }
+}
+
+.hero--release {
+  background-position: top right;
+  background-size: contain;
+}
+
+.subhero-info {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 1.125rem;
+  padding: 0.5rem 1rem;
+  transform: var(--bandtree-skew);
+  
+  @media (min-width: 768px) {
+    padding: 0.5rem 2rem;
+  }
+  
+  a {
+    margin-inline-start: 0.25rem;
+  }
+}
+
+.content {
+  background-color: var(--color-green-300);
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  
+  &.bands,
+  &.releases,
+  &.musicians {
+    ul {
+      @media (min-width: 480px) {
+        columns: 2;
+      }
+      @media (min-width: 768px) {
+        columns: 3;
+      }
+    }
+  }
+}
+
+.search {
+  padding: 2rem;
+  border: 0.5rem solid var(--color-green-500);
+  
+  form {
+    display: flex;
+    flex-flow: row nowrap;
+    
+    input {
+      flex: 1;
+    }
+  }
+}
+
+.release-content {
+  @media (min-width: 480px) {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 2rem;
+  }
+}
+
+.release-content__left,
+.release-content__right {
+  @media (min-width: 480px) {
+    flex: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  
+}

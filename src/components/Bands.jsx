@@ -45,8 +45,8 @@ const Bands = () => {
 
   return (
     <>
-      <div className="hero content-before">
-        <h1 className="hero-heading">Bands</h1>
+      <div className="hero">
+        <h1>Bands</h1>
       </div>
       <div className="subhero-info">
         {totalBands} band{totalBands !== 1 ? 's' : ''} in the tree

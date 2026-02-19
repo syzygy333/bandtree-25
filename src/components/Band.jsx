@@ -94,8 +94,8 @@ const Band = () => {
 
   return (
     <>
-      <div className="hero band content-before" style={heroStyle ? heroStyle : ''}>
-        <h1 className="hero-heading">{band.fields.name}</h1>
+      <div className="hero band" style={heroStyle ? heroStyle : ''}>
+        <h1>{band.fields.name}</h1>
       </div>
       <div className="content">
         <article className="band-content">

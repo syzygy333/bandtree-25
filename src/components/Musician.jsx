@@ -76,8 +76,8 @@ const Musician = () => {
 
   return (
     <>
-      <div className="hero content-before">
-        <h1 className="hero-heading">{musician.fields.name}</h1>
+      <div className="hero">
+        <h1>{musician.fields.name}</h1>
       </div>
       <div className="content">
         
