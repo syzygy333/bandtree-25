@@ -7,6 +7,7 @@ import Musicians from './components/Musicians';
 import Musician from './components/Musician';
 import Releases from './components/Releases';
 import Release from './components/Release';
+import RecordLabel from './components/RecordLabel';
 import './App.css';
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
           {/* Dynamic routes for single pages */}
           <Route path="/bands/:bandSlug" element={<Band />} />
           <Route path="/releases/:releaseSlug" element={<Release />} />
+          <Route path="/record-labels/:recordLabelSlug" element={<RecordLabel />} />
           <Route path="/musicians/:musicianSlug" element={<Musician />} />
         </Routes>
       </div>

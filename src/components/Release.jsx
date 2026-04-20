@@ -4,6 +4,16 @@ import client from '../contentfulClient';
 import { Link } from 'react-router-dom';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { getConnectionCountsByMusicianId, getReleaseCountsByMusicianId } from '../utils/musicianConnections';
+import { getRecordLabelName, slugifyRecordLabelName } from '../utils/recordLabels';
+
+const getRecordLabelData = (recordLabelField) => {
+  const labelName = getRecordLabelName(recordLabelField);
+
+  return {
+    name: labelName,
+    href: labelName ? `/record-labels/${slugifyRecordLabelName(labelName)}` : '',
+  };
+};
 
 const Release = () => {
   const [release, setRelease] = useState(null);
@@ -98,6 +108,8 @@ const Release = () => {
     heroStyle = {};
   }
 
+  const recordLabelData = getRecordLabelData(release.fields.recordLabel);
+
   return (
     <>
       <div className="hero release content-before" style={heroStyle ? heroStyle : ''}>
@@ -142,15 +154,21 @@ const Release = () => {
                 {documentToReactComponents(release.fields.tracks)}
               </div>
             )}
-            {/* to-do
-            <div>
-              <h2>Label</h2>
-              <p>{release.fields.recordLabel}</p>
-            </div>
-            <div>
-              <h2>Catalog Number</h2>
-              <p>{release.fields.catalogNumber}</p>
-            </div> */}
+            {(release.fields.recordLabel || release.fields.catalogNumber) && (
+              <div>
+                <h2>Record Label</h2>
+                <p>
+                  {recordLabelData.name ? (
+                    <Link to={recordLabelData.href}>
+                      {recordLabelData.name}
+                    </Link>
+                  ) : (
+                    'Unknown label'
+                  )}
+                  {release.fields.catalogNumber ? ` (${release.fields.catalogNumber})` : ''}
+                </p>
+              </div>
+            )}
           </div>
         </article>
     </div>
