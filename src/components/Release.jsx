@@ -3,12 +3,13 @@ import { useParams } from 'react-router-dom';
 import client from '../contentfulClient';
 import { Link } from 'react-router-dom';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import { getConnectionCountsByMusicianId } from '../utils/musicianConnections';
+import { getConnectionCountsByMusicianId, getReleaseCountsByMusicianId } from '../utils/musicianConnections';
 
 const Release = () => {
   const [release, setRelease] = useState(null);
   const [band, setBand] = useState(null);
   const [musicianConnectionCounts, setMusicianConnectionCounts] = useState({});
+  const [musicianReleaseCounts, setMusicianReleaseCounts] = useState({});
   const [loading, setLoading] = useState(true);
   const { releaseSlug } = useParams(); // Get the release ID from the URL
 
@@ -43,10 +44,16 @@ const Release = () => {
               relatedReleasesResponse.items,
               creditedMusicianIds
             );
+            const releaseCountsByMusicianId = getReleaseCountsByMusicianId(
+              relatedReleasesResponse.items,
+              creditedMusicianIds
+            );
 
             setMusicianConnectionCounts(connectionCountsByMusicianId);
+            setMusicianReleaseCounts(releaseCountsByMusicianId);
           } else {
             setMusicianConnectionCounts({});
+            setMusicianReleaseCounts({});
           }
           
           // Find the band that has this release in its releases array
@@ -115,7 +122,7 @@ const Release = () => {
                   {release.fields.musicians.map((musician) => (
                     <li key={musician.sys.id}>
                       <Link to={`/musicians/${musician.fields.slug}`}>
-                        {musician.fields.name} ({musicianConnectionCounts[musician.sys.id] ?? 0} connections)
+                        {musician.fields.name} ({musicianConnectionCounts[musician.sys.id] ?? 0} connections across {musicianReleaseCounts[musician.sys.id] ?? 0} release{(musicianReleaseCounts[musician.sys.id] ?? 0) !== 1 ? 's' : ''})
                       </Link>
                     </li>
                   ))}

@@ -58,6 +58,28 @@ export function getConnectionCountsByMusicianId(releases = [], musicianIds = [])
   return connectionCountsByMusicianId;
 }
 
+export function getReleaseCountsByMusicianId(releases = [], musicianIds = []) {
+  const seededMusicianIdSet = new Set(musicianIds);
+  const releaseCountsByMusicianId = {};
+
+  musicianIds.forEach((musicianId) => {
+    releaseCountsByMusicianId[musicianId] = 0;
+  });
+
+  releases.forEach((release) => {
+    const linkedMusicianIds = getMusicianIdsFromRelease(release);
+    const uniqueIdsInRelease = new Set(linkedMusicianIds);
+
+    uniqueIdsInRelease.forEach((musicianId) => {
+      if (seededMusicianIdSet.has(musicianId)) {
+        releaseCountsByMusicianId[musicianId] += 1;
+      }
+    });
+  });
+
+  return releaseCountsByMusicianId;
+}
+
 export function getMusicianConnectionCount(releases = [], musicianId) {
   if (!musicianId) {
     return 0;
