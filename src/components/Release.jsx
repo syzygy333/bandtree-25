@@ -7,6 +7,7 @@ import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 const Release = () => {
   const [release, setRelease] = useState(null);
   const [band, setBand] = useState(null);
+  const [musicianConnectionCounts, setMusicianConnectionCounts] = useState({});
   const [loading, setLoading] = useState(true);
   const { releaseSlug } = useParams(); // Get the release ID from the URL
 
@@ -22,6 +23,56 @@ const Release = () => {
         if (response.items.length) {
           const releaseData = response.items[0];
           setRelease(releaseData);
+
+          const creditedMusicians = Array.isArray(releaseData.fields.musicians)
+            ? releaseData.fields.musicians
+            : [];
+          const creditedMusicianIds = creditedMusicians.map((musician) => musician.sys.id);
+
+          if (creditedMusicianIds.length) {
+            const relatedReleasesResponse = await client.getEntries({
+              content_type: 'release',
+              'fields.musicians.sys.id[in]': creditedMusicianIds.join(','),
+              select: 'fields.musicians',
+              include: 1,
+              limit: 1000,
+            });
+
+            const creditedMusicianIdSet = new Set(creditedMusicianIds);
+            const collaboratorSetsByMusicianId = {};
+
+            creditedMusicianIds.forEach((musicianId) => {
+              collaboratorSetsByMusicianId[musicianId] = new Set();
+            });
+
+            relatedReleasesResponse.items.forEach((relatedRelease) => {
+              const linkedMusicians = Array.isArray(relatedRelease.fields.musicians)
+                ? relatedRelease.fields.musicians
+                : [];
+              const linkedMusicianIds = linkedMusicians.map((linkedMusician) => linkedMusician.sys.id);
+
+              linkedMusicianIds.forEach((musicianId) => {
+                if (!creditedMusicianIdSet.has(musicianId)) {
+                  return;
+                }
+
+                linkedMusicianIds.forEach((otherMusicianId) => {
+                  if (otherMusicianId !== musicianId) {
+                    collaboratorSetsByMusicianId[musicianId].add(otherMusicianId);
+                  }
+                });
+              });
+            });
+
+            const connectionCountsByMusicianId = {};
+            creditedMusicianIds.forEach((musicianId) => {
+              connectionCountsByMusicianId[musicianId] = collaboratorSetsByMusicianId[musicianId].size;
+            });
+
+            setMusicianConnectionCounts(connectionCountsByMusicianId);
+          } else {
+            setMusicianConnectionCounts({});
+          }
           
           // Find the band that has this release in its releases array
           const bandResponse = await client.getEntries({
@@ -89,7 +140,7 @@ const Release = () => {
                   {release.fields.musicians.map((musician) => (
                     <li key={musician.sys.id}>
                       <Link to={`/musicians/${musician.fields.slug}`}>
-                        {musician.fields.name}
+                        {musician.fields.name} ({musicianConnectionCounts[musician.sys.id] ?? 0} connections)
                       </Link>
                     </li>
                   ))}
