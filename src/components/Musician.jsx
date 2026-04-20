@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import client from '../contentfulClient';
 import { Link } from 'react-router-dom';
+import { getMusicianConnectionCount } from '../utils/musicianConnections';
 
 const Musician = () => {
   const [musician, setMusician] = useState(null);
@@ -47,23 +48,7 @@ const Musician = () => {
   // Calculate the count of unique connected musicians (first-degree relationships)
   const connectedMusiciansCount = useMemo(() => {
     if (!musician || !releases.length) return 0;
-    
-    const currentMusicianId = musician.sys.id;
-    const connectedMusicianIds = new Set();
-    
-    // Iterate through all releases and collect unique musician IDs
-    releases.forEach((release) => {
-      if (release.fields.musicians && Array.isArray(release.fields.musicians)) {
-        release.fields.musicians.forEach((connectedMusician) => {
-          // Only add if it's not the current musician
-          if (connectedMusician.sys.id !== currentMusicianId) {
-            connectedMusicianIds.add(connectedMusician.sys.id);
-          }
-        });
-      }
-    });
-    
-    return connectedMusicianIds.size;
+    return getMusicianConnectionCount(releases, musician.sys.id);
   }, [musician, releases]);
 
   if (loading) {

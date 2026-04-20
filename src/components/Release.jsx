@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import client from '../contentfulClient';
 import { Link } from 'react-router-dom';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
+import { getConnectionCountsByMusicianId } from '../utils/musicianConnections';
 
 const Release = () => {
   const [release, setRelease] = useState(null);
@@ -38,36 +39,10 @@ const Release = () => {
               limit: 1000,
             });
 
-            const creditedMusicianIdSet = new Set(creditedMusicianIds);
-            const collaboratorSetsByMusicianId = {};
-
-            creditedMusicianIds.forEach((musicianId) => {
-              collaboratorSetsByMusicianId[musicianId] = new Set();
-            });
-
-            relatedReleasesResponse.items.forEach((relatedRelease) => {
-              const linkedMusicians = Array.isArray(relatedRelease.fields.musicians)
-                ? relatedRelease.fields.musicians
-                : [];
-              const linkedMusicianIds = linkedMusicians.map((linkedMusician) => linkedMusician.sys.id);
-
-              linkedMusicianIds.forEach((musicianId) => {
-                if (!creditedMusicianIdSet.has(musicianId)) {
-                  return;
-                }
-
-                linkedMusicianIds.forEach((otherMusicianId) => {
-                  if (otherMusicianId !== musicianId) {
-                    collaboratorSetsByMusicianId[musicianId].add(otherMusicianId);
-                  }
-                });
-              });
-            });
-
-            const connectionCountsByMusicianId = {};
-            creditedMusicianIds.forEach((musicianId) => {
-              connectionCountsByMusicianId[musicianId] = collaboratorSetsByMusicianId[musicianId].size;
-            });
+            const connectionCountsByMusicianId = getConnectionCountsByMusicianId(
+              relatedReleasesResponse.items,
+              creditedMusicianIds
+            );
 
             setMusicianConnectionCounts(connectionCountsByMusicianId);
           } else {

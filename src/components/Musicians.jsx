@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import client from '../contentfulClient';
 import { Link } from 'react-router-dom';
 import ServerSideSearch from './Search';
+import { getMostConnectedMusicianFromReleases } from '../utils/musicianConnections';
 
 const Musicians = () => {
   const [musicians, setMusicians] = useState([]);
@@ -37,42 +38,8 @@ const Musicians = () => {
           limit: 1000, 
         });
 
-        // Step 2: Build a map of unique collaborators for every musician ID
-        // Structure: { 'musicianId1': Set(['collabIdA', 'collabIdB']), 'musicianId2': Set(['collabIdA']), ... }
-        const collaborationMap = {};
-
-        releasesResponse.items.forEach(release => {
-          const linkedMusicians = release.fields.musicians || [];
-          if (linkedMusicians.length > 1) { // Only consider releases with more than one musician
-            const musicianIdsInRelease = linkedMusicians.map(m => m.sys.id);
-            
-            musicianIdsInRelease.forEach(musicianId => {
-              // Ensure the musician entry exists in our map
-              if (!collaborationMap[musicianId]) {
-                collaborationMap[musicianId] = new Set();
-              }
-
-              // Add every *other* musician from this release to their set of unique collaborators
-              musicianIdsInRelease.forEach(otherMusicianId => {
-                if (musicianId !== otherMusicianId) {
-                  collaborationMap[musicianId].add(otherMusicianId);
-                }
-              });
-            });
-          }
-        });
-
-        // Step 3: Identify the musician ID with the largest Set of collaborators
-        let maxUniqueCollaborators = 0;
-        let mostConnectedMusicianId = null;
-
-        for (const musicianId in collaborationMap) {
-          const uniqueCount = collaborationMap[musicianId].size;
-          if (uniqueCount > maxUniqueCollaborators) {
-            maxUniqueCollaborators = uniqueCount;
-            mostConnectedMusicianId = musicianId;
-          }
-        }
+        const { musicianId: mostConnectedMusicianId, connectionsCount: maxUniqueCollaborators } =
+          getMostConnectedMusicianFromReleases(releasesResponse.items);
 
         // Step 4: Fetch details for *only* the top musician
         if (mostConnectedMusicianId) {
