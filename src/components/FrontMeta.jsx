@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import client from '../contentfulClient';
-import '@awesome.me/webawesome/dist/components/icon/icon.js';
 
 const FrontMeta = () => {
   // 1. useState to store the count and handle loading/error states
@@ -53,15 +52,12 @@ const FrontMeta = () => {
           The tree has 
           <div>
             {counts.bands} bands 
-            <wa-icon style={iconStyle} family="duotone" name="guitars" data-fa-kit-code="03193d7d12"></wa-icon>
           </div>
           <div>
             {counts.releases} releases 
-            <wa-icon style={iconStyle} family="duotone" name="record-vinyl"></wa-icon>
           </div>
           <div>
             and {counts.musicians} musicians
-            <wa-icon style={iconStyle} family="duotone" name="user-music"></wa-icon>
           </div>
         </h2>
       </div>
