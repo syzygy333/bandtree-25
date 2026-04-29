@@ -1,0 +1,48 @@
+name: Deploy Vite+Contentful to DreamHost
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      # Vite build-time env vars (backed by GitHub Secrets)
+      VITE_CONTENTFUL_SPACE_ID: ${{ secrets.VITE_CONTENTFUL_SPACE_ID }}
+      VITE_CONTENTFUL_ACCESS_TOKEN: ${{ secrets.VITE_CONTENTFUL_ACCESS_TOKEN }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+        # or: pnpm install / yarn install
+
+      - name: Build Vite app
+        run: npm run build
+        # or: pnpm build / yarn build
+        # Output will be in ./dist
+
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DREAMHOST_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          touch ~/.ssh/known_hosts
+          ssh-keyscan -H "${{ secrets.DREAMHOST_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Deploy dist to DreamHost via rsync
+        run: |
+          rsync -avz --delete \
+            ./dist/ \
+            ${{ secrets.DREAMHOST_USER }}@${{ secrets.DREAMHOST_HOST }}:${{ secrets.DREAMHOST_REMOTE_PATH }}/
