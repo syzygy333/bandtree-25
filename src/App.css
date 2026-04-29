@@ -28,8 +28,8 @@
   }
 }
 
-.homepage-hero {
-  flex-flow: row wrap;
+.homepage.hero {
+  gap: 2rem;
 }
 
 .homepage-site-title {
