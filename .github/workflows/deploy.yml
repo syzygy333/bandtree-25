@@ -11,8 +11,8 @@ jobs:
 
     env:
       # Vite build-time env vars (backed by GitHub Secrets)
-      VITE_CONTENTFUL_SPACE_ID: ${{ secrets.VITE_CONTENTFUL_SPACE_ID }}
-      VITE_CONTENTFUL_ACCESS_TOKEN: ${{ secrets.VITE_CONTENTFUL_ACCESS_TOKEN }}
+      VITE_REACT_APP_CONTENTFUL_SPACE_ID: ${{ secrets.VITE_REACT_APP_CONTENTFUL_SPACE_ID }}
+      VITE_REACT_APP_CONTENTFUL_ACCESS_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_ACCESS_TOKEN }}
 
     steps:
       - name: Checkout code
