@@ -38,10 +38,6 @@ const FrontMeta = () => {
     return <div>Error: {error.message}</div>;
   }
   
-  const iconStyle = {
-    marginInline: '0.25em'
-  };
-  
   // 4. Display the count from the state
   return (
     <div className="homepage hero">
