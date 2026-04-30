@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import client from '../contentfulClient';
 import { Link } from 'react-router-dom';
 import ServerSideSearch from './Search';
-import { getMostConnectedMusicianFromReleases } from '../utils/musicianConnections';
+import { fetchMostConnectedMusician } from '../utils/featuredConnections';
 
 const Musicians = () => {
   const [musicians, setMusicians] = useState([]);
@@ -31,25 +31,8 @@ const Musicians = () => {
     
     const findMostConnected = async () => {
       try {
-        // Step 1: Fetch ALL releases and their linked musicians
-        const releasesResponse = await client.getEntries({
-          content_type: 'release',
-          select: 'fields.musicians', // We only need the musician links
-          limit: 1000, 
-        });
-
-        const { musicianId: mostConnectedMusicianId, connectionsCount: maxUniqueCollaborators } =
-          getMostConnectedMusicianFromReleases(releasesResponse.items);
-
-        // Step 4: Fetch details for *only* the top musician
-        if (mostConnectedMusicianId) {
-          const musicianDetailsResponse = await client.getEntry(mostConnectedMusicianId);
-          
-          // Attach the unique collaborator count for display
-          musicianDetailsResponse.uniqueCollaboratorCount = maxUniqueCollaborators; 
-          setTopMusician(musicianDetailsResponse);
-        }
-      
+        const mostConnectedMusician = await fetchMostConnectedMusician();
+        setTopMusician(mostConnectedMusician);
       } catch (error) {
         console.error("Error finding most connected musician:", error);
       } finally {

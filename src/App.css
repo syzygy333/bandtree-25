@@ -29,7 +29,8 @@
 }
 
 .homepage.hero {
-  gap: 2rem;
+  flex-wrap: wrap;
+  align-content: center;
 }
 
 .homepage-site-title {
@@ -37,8 +38,12 @@
 }
 
 .homepage-site-title,
-.homepage-stats {
+.homepage-tagline {
   flex-basis: 100%;
+}
+
+.homepage-intro {
+  text-align: center;
 }
 
 .hero {
