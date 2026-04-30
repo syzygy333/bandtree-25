@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import client from '../contentfulClient';
 import { Link } from 'react-router-dom';
 import ServerSideSearch from './Search';
-import { computeBandConnections } from '../utils/bandConnections';
+import { getMostConnectedBandFromEntries } from '../utils/featuredConnections';
 
 const Bands = () => {
   const [bands, setBands] = useState([]);
@@ -15,17 +15,15 @@ const Bands = () => {
       try {
         const response = await client.getEntries({
           content_type: 'band', // Filter for entries of content type 'band'
-          include: 3, // pull linked releases and musicians for connectivity calc
-          limit: 1000, // ensure we consider all bands (raise if needed)
+          include: 3, // include linked releases and musicians for connection calculation
+          limit: 1000,
         });
         if (response.items.length) {
           setBands(response.items);
         }
         // Use response.total to get the actual total count, regardless of pagination
         setTotalBands(response.total);
-
-        const { topBand: mostConnected } = computeBandConnections(response.items);
-        setTopBand(mostConnected);
+        setTopBand(getMostConnectedBandFromEntries(response.items));
       } catch (error) {
         console.error("Error fetching bands:", error);
       } finally {
